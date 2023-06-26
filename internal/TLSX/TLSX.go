@@ -68,7 +68,15 @@ func (client *TLSX) Req(URL string, Body string, MethodS string, Cookies []Cooki
 		lowercasekey := strings.ToLower(key)
 		headerOrder = append(headerOrder, lowercasekey)
 	}
-
+	req.Header = http.Header{
+		http.HeaderOrderKey: headerOrder,
+		http.PHeaderOrderKey: []string{
+			":method",
+			":authority",
+			":scheme",
+			":path",
+		},
+	}
 	for Key, Value := range Headers {
 		if Key != "host" {
 			req.Header.Set(Key, Value)
@@ -79,15 +87,7 @@ func (client *TLSX) Req(URL string, Body string, MethodS string, Cookies []Cooki
 	req.Header.Set("Host", u.Host)
 	req.Header.Set("user-agent", Headers["user-agent"])
 
-	req.Header = http.Header{
-		http.HeaderOrderKey: headerOrder,
-		http.PHeaderOrderKey: []string{
-			":method",
-			":authority",
-			":scheme",
-			":path",
-		},
-	}
+
 	resp, err := client.TLSClient.Do(req)
 
 	if err != nil {
