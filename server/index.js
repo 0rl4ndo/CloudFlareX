@@ -1841,15 +1841,10 @@ x = function (a4, e, f, z) {
         z
 }()
 
-app.use(cors());
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
+# thanks to vichy
 app.post('/wp', (req, res) => {
-    const book = req.body;
-    console.log(book)
-    // get actual hour
+    const K = req.body;
+    console.log(K)
     var d = new Date();
     var n = d.getHours();
     var m = d.getMinutes();
